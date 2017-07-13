@@ -7,8 +7,11 @@
 </head>
 <body>
   <div id="app">
-    <category-ul
-      v-bind:categories='categories'></category-ul>
+    <input type="checkbox" 
+      v-on:click="changeShowTable">
+    <component
+      v-bind:categories='categories'
+      v-bind:is='currentView'></component>
   </div>
   <template id='categoryUlTmpl'>
     <ul>
@@ -48,6 +51,15 @@
   </template>
 
   <script>
+    Vue.component('categoryTable', {
+      template: '#categoriesTableTmpl',
+      props: ['categories'],
+      methods: {
+        selectCategory: function (cat) {
+          cat.selected = !cat.selected
+        }
+      }
+    })
     Vue.component('categoryUl', {
       template: '#categoryUlTmpl',
       props: ['categories'],
@@ -65,7 +77,18 @@
     new Vue({
       el: '#app',
       data: {
-        categories: []
+        categories: [],
+        showTable: true
+      },
+      computed: {
+        currentView: function () {
+          return this.showTable ? 'categoryTable' : 'categoryUl'
+        }
+      },
+      methods: {
+        changeShowTable: function () {
+          this.showTable = !this.showTable
+        }
       },
       mounted: function () {
          var url = 'https://raw.githubusercontent.com/jesuslerma/vuejs101-guide/master/categories.json'
