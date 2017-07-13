@@ -13,8 +13,8 @@
         v-on:click='selectCategory(category)'>
         <category-item 
           v-bind:name='category.name'
-          >
-          <b v-if='category.selected'>selected</b>
+          v-bind:selected='category.selected'>
+          
         </category-item>
       </li>
     </ul>
@@ -22,14 +22,14 @@
   <template id='categoryItemTmpl'>
     <div>
       {{ name }}
-      <slot></slot>
+      <b v-if='selected'>selected</b>
     </div>
   </template>
 
   <script>
     Vue.component('categoryItem', {
       template: '#categoryItemTmpl',
-      props: ['name']
+      props: ['name', 'selected']
     })
 
     new Vue({
