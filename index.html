@@ -51,23 +51,21 @@
   </template>
 
   <script>
-    Vue.component('categoryTable', {
-      template: '#categoriesTableTmpl',
+    var categoriesListMixin = {
       props: ['categories'],
       methods: {
         selectCategory: function (cat) {
           cat.selected = !cat.selected
         }
       }
+    }
+    Vue.component('categoryTable', {
+      template: '#categoriesTableTmpl',
+      mixins: [categoriesListMixin]
     })
     Vue.component('categoryUl', {
       template: '#categoryUlTmpl',
-      props: ['categories'],
-      methods: {
-        selectCategory: function (cat) {
-          cat.selected = !cat.selected
-        }
-      }
+      mixins: [categoriesListMixin]
     })
     Vue.component('categoryItem', {
       template: '#categoryItemTmpl',
