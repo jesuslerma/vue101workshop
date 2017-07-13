@@ -10,9 +10,9 @@
     <input type="checkbox" 
       v-on:click="changeShowTable">
     <component
-      v-on:selectcategory='onSelectCategory'
-      v-bind:categories='categories'
-      v-bind:is='currentView'></component>
+      @selectcategory='onSelectCategory'
+      :categories='categories'
+      :is='currentView'></component>
   </div>
   <template id='categoryUlTmpl'>
     <ul>
@@ -46,7 +46,7 @@
 
   <template id='categoryItemTmpl'>
     <div>
-      {{ name }}
+      {{ name | replaceWithLove }}
       <b v-if='selected'>selected</b>
     </div>
   </template>
@@ -71,6 +71,10 @@
     Vue.component('categoryItem', {
       template: '#categoryItemTmpl',
       props: ['name', 'selected']
+    })
+
+    Vue.filter('replaceWithLove', function (val) {
+      return '<3'
     })
 
     new Vue({
