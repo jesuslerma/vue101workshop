@@ -13,20 +13,23 @@
         v-on:click='selectCategory(category)'>
         <category-item 
           v-bind:name='category.name'
-          v-bind:selected='category.selected'
-          inline-template>
-          <div>
-            {{ name }}
-            <b v-if='selected'>selected</b>
-          </div>
+          >
+          <b v-if='category.selected'>selected</b>
         </category-item>
       </li>
     </ul>
   </div>
+  <template id='categoryItemTmpl'>
+    <div>
+      {{ name }}
+      <slot></slot>
+    </div>
+  </template>
 
   <script>
     Vue.component('categoryItem', {
-      props: ['name', 'selected']
+      template: '#categoryItemTmpl',
+      props: ['name']
     })
 
     new Vue({
