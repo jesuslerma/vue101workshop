@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Vue</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <li
+        v-on:click='selectCategory(category)'
+        v-for='category in categories'>
+          {{category.name}}
+          <b v-if='category.selected'>selected</b>
+        </li>
+    </ul>
+  </div>
+
+  <script>
+    var categoriesList = [
+      { name: 'electronics', selected: true },
+      { name: 'clothing', selected: false },
+      { name: 'home', selected: false }
+    ]
+    new Vue({
+      el: '#app',
+      data: {
+        categories: categoriesList
+      },
+      methods: {
+        selectCategory: function (cat) {
+          cat.selected = !cat.selected
+        }
+      },
+      mounted: function () {
+        alert('estoy montado')
+      }
+    })
+  </script>
+</body>
+</html>
