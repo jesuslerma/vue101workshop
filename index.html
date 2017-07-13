@@ -7,6 +7,10 @@
 </head>
 <body>
   <div id="app">
+    <category-ul
+      v-bind:categories='categories'></category-ul>
+  </div>
+  <template id='categoryUlTmpl'>
     <ul>
       <li 
         v-for='category in categories'
@@ -14,11 +18,28 @@
         <category-item 
           v-bind:name='category.name'
           v-bind:selected='category.selected'>
-          
         </category-item>
       </li>
     </ul>
-  </div>
+  </template>
+
+  <template id='categoriesTableTmpl'>
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Selected</th>
+      </thead>
+      <tbody>
+        <tr
+          v-on:click='selectCategory(category)'
+          v-for='category in categories'>
+          <td>{{ category.name }}</td>
+          <td>{{ category.selected }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </template>
+
   <template id='categoryItemTmpl'>
     <div>
       {{ name }}
@@ -27,6 +48,15 @@
   </template>
 
   <script>
+    Vue.component('categoryUl', {
+      template: '#categoryUlTmpl',
+      props: ['categories'],
+      methods: {
+        selectCategory: function (cat) {
+          cat.selected = !cat.selected
+        }
+      }
+    })
     Vue.component('categoryItem', {
       template: '#categoryItemTmpl',
       props: ['name', 'selected']
@@ -36,11 +66,6 @@
       el: '#app',
       data: {
         categories: []
-      },
-      methods: {
-        selectCategory: function (cat) {
-          cat.selected = !cat.selected
-        }
       },
       mounted: function () {
          var url = 'https://raw.githubusercontent.com/jesuslerma/vuejs101-guide/master/categories.json'
