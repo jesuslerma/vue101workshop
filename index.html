@@ -10,6 +10,7 @@
     <input type="checkbox" 
       v-on:click="changeShowTable">
     <component
+      v-on:selectcategory='onSelectCategory'
       v-bind:categories='categories'
       v-bind:is='currentView'></component>
   </div>
@@ -55,7 +56,7 @@
       props: ['categories'],
       methods: {
         selectCategory: function (cat) {
-          cat.selected = !cat.selected
+          this.$emit('selectcategory', cat)
         }
       }
     }
@@ -86,6 +87,9 @@
       methods: {
         changeShowTable: function () {
           this.showTable = !this.showTable
+        },
+        onSelectCategory: function (category) {
+          category.selected = !category.selected
         }
       },
       mounted: function () {
