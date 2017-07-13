@@ -3,29 +3,36 @@
 <head>
   <title>Welcome to Vue</title>
   <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <div id="app">
     <ul>
-      <li
-        v-on:click='selectCategory(category)'
-        v-for='category in categories'>
-          {{category.name}}
-          <b v-if='category.selected'>selected</b>
-        </li>
+      <li 
+        v-for='category in categories'
+        v-on:click='selectCategory(category)'>
+        <category-item 
+          v-bind:name='category.name'
+          v-bind:selected='category.selected'
+          inline-template>
+          <div>
+            {{ name }}
+            <b v-if='selected'>selected</b>
+          </div>
+        </category-item>
+      </li>
     </ul>
   </div>
 
   <script>
-    var categoriesList = [
-      { name: 'electronics', selected: true },
-      { name: 'clothing', selected: false },
-      { name: 'home', selected: false }
-    ]
+    Vue.component('categoryItem', {
+      props: ['name', 'selected']
+    })
+
     new Vue({
       el: '#app',
       data: {
-        categories: categoriesList
+        categories: []
       },
       methods: {
         selectCategory: function (cat) {
@@ -34,6 +41,10 @@
       },
       mounted: function () {
          var url = 'https://raw.githubusercontent.com/jesuslerma/vuejs101-guide/master/categories.json'
+         var that = this
+         axios.get(url).then(function (res) {
+          that.categories = res.data
+         })
       }
     })
   </script>
